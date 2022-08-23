@@ -33,7 +33,29 @@ function Aiming.Check()
 
     return true
 end
-
+  --// Spoof the Current Da Hood Modded Anti Cheat
+        local function ACThing()
+            for I, V in pairs(getgc(true)) do
+                if type(V) == "function" then
+                    if getfenv(V).script and getfenv(V).script.name == "Camera" then
+                        for I2, V2 in pairs(getupvalues(V)) do
+                            if type(V2) == "table" and rawget(V2, "DoThings") then
+                                rawset(V2, "Break", true)
+                                rawset(
+                                    V2,
+                                    "DoThings",
+                                    function()
+                                    end
+                                )
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        ACThing()
+        game.Players.LocalPlayer.CharacterAdded:connect(ACThing)
+        
 local __index
 __index = hookmetamethod(game, "__index", function(t, k)
     if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
