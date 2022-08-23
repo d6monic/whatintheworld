@@ -34,9 +34,9 @@ function Aiming.Check()
     return true
 end
 
-local oldIndex = nil
-oldIndex = hookmetamethod(game, "oldIndex", function(t, k)
-    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
+local oldIndex = nil 
+oldIndex = hookmetamethod(game, "__index", function(self, Index)
+	if self == Mouse and (Index == "Hit") then 
         local SelectedPart = Aiming.SelectedPart
 
         if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
