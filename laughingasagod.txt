@@ -1,4 +1,4 @@
-local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/d6monic/whatintheworld/main/laughing2you.txt"))()
+local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/KaiCuh/locks/main/d870997929af2a1483180013f688c771"))()
 Aiming.TeamCheck(false)
 
 local Workspace = game:GetService("Workspace")
@@ -9,6 +9,7 @@ local UserInputService = game:GetService("UserInputService")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
+hookmetamethod = hookmetamethod
 
 local DaHoodSettings = {
     SilentAim = true,
@@ -46,7 +47,7 @@ oldIndex = hookmetamethod(game, "__index", function(self, Index)
         end
     end
 
-    return oldIndex(t, k)
+    return __index(t, k)
 end)
 
 RunService:BindToRenderStep("AimLock", 0, function()
@@ -58,20 +59,3 @@ RunService:BindToRenderStep("AimLock", 0, function()
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
     end)
-
-    -- main hook
-    function griefgc(Index, Value)
-        if type(Value) == "function" and getfenv(Value).script and getfenv(Value).script.Name == "Camera" then 
-            table.foreach(getupvalues(Value), function(Index, Value)
-                if type(Value) == "table" then 
-                    table.foreach(Value, function(Index, Value)
-                        if type(Value) == "function" and (tostring(Index) == "DoThings" or tostring(Index) == "Alive") then 
-                            hookfunction(Value, function()
-                                return
-                            end)
-                        end
-                    end)
-                end
-            end)
-        end
-    end; table.foreach(getgc(), griefgc);
