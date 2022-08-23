@@ -9,7 +9,6 @@ local UserInputService = game:GetService("UserInputService")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
-hookmetamethod = hookmetamethod
 
 local DaHoodSettings = {
     SilentAim = true,
