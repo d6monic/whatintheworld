@@ -24,10 +24,10 @@ function Aiming.Check()
     end
 
     local Character = Aiming.Character(Aiming.Selected)
-    local KOd = Character:WaitForChild["K.O"].Value
-  
+    local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
+    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
 
-    if (KOd) then
+    if (KOd or Grabbed) then
         return false
     end
 
@@ -58,30 +58,3 @@ RunService:BindToRenderStep("AimLock", 0, function()
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
     end)
-
--- variables
-local client, connect = GetService(game, "Players").LocalPlayer, Loaded.Connect;
-
--- main hook
-local function ACThing()
-    for I, V in pairs(getgc(true)) do
-        if type(V) == "function" then
-            if getfenv(V).script and getfenv(V).script.name == "Camera" then
-                for I2, V2 in pairs(getupvalues(V)) do
-                    if type(V2) == "table" and rawget(V2, "DoThings") then
-                        rawset(V2, "Break", true)
-                        rawset(
-                            V2,
-                            "DoThings",
-                            function()
-                            end
-                        )
-                    end
-                end
-            end
-        end
-    end
-end
-ACThing()
-game.Players.LocalPlayer.CharacterAdded:connect(ACThing)
-
