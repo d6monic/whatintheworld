@@ -47,7 +47,8 @@ oldIndex = hookmetamethod(game, "__index", function(self, Index)
         end
     end
 
-    return __index(t, k)
+end
+return oldIndex(self, Index)
 end)
 
 RunService:BindToRenderStep("AimLock", 0, function()
