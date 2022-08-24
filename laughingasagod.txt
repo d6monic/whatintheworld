@@ -73,7 +73,8 @@ oldIndex = hookmetamethod(game, "__index", function(self, Index)
     return oldIndex(self, Index)
 end)
 
-k", 0, function()
+
+RunService:BindToRenderStep("AimLock", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
         local SelectedPart = Aiming.SelectedPart
 
