@@ -33,45 +33,24 @@ function Aiming.Check()
 
     return true
 end
-  --// Spoof the Current Da Hood Modded Anti Cheat
-        local function ACThing()
-            for I, V in pairs(getgc(true)) do
-                if type(V) == "function" then
-                    if getfenv(V).script and getfenv(V).script.name == "Camera" then
-                        for I2, V2 in pairs(getupvalues(V)) do
-                            if type(V2) == "table" and rawget(V2, "DoThings") then
-                                rawset(V2, "Break", true)
-                                rawset(
-                                    V2,
-                                    "DoThings",
-                                    function()
-                                    end
-                                )
-                            end
-                        end
-                    end
-                end
+
+local oldIndex = nil 
+oldIndex = hookmetamethod(game, "__index", function(self, Index)
+    if self == Mouse and not checkcaller() then 
+        local SelectedPart = Aiming.SelectedPart
+        if DaHoodSettings.SilentAim and Index == "Hit" or Index == "Target" then
+            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+            if Index == "Hit" then
+                return Hit
+            elseif Index == "Target" then
+                return SelectedPart
             end
         end
-        ACThing()
-        game.Players.LocalPlayer.CharacterAdded:connect(ACThing)
-        
-local __index
-__index = hookmetamethod(game, "__index", function(t, k)
-    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
-        local SelectedPart = Aiming.SelectedPart
-
-        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-
-            return (k == "Hit" and Hit or SelectedPart)
-        end
     end
-
-    return __index(t, k)
+    return oldIndex(self, Index)
 end)
 
-RunService:BindToRenderStep("AimLock", 0, function()
+k", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
         local SelectedPart = Aiming.SelectedPart
 
