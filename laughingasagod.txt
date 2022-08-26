@@ -49,7 +49,7 @@ function Aiming.Check()
 
     local Character = Aiming.Character(Aiming.Selected)
     local KOd = Character:WaitForChild"K.O".Value
-    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+    local Grabbed = Character:FindFirstChild("WELD_GRAB") ~= nil
 
     if (KOd or Grabbed) then
         return false
