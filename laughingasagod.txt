@@ -43,7 +43,19 @@ local DaHoodSettings = {
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
+
+mouse.KeyDown:Connect(function(key)
+if key == AimLockKeybind then
+if getgenv().DaHoodSettings.SilentAimEnabled == true then
+ getgenv().DaHoodSettings.SilentAimEnabled = false
+else
+getgenv().DaHoodSettings.SilentAimEnabled = true
+end
+end
+end)
+
 function Aiming.Check()
+
     if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
         return false
     end
