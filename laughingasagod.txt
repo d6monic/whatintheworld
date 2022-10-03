@@ -10,7 +10,8 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
 
---// Spoof the Current Da Hood Modded Anti Cheat
+if not game:IsLoaded() then game.Loaded:Wait() end
+
 local function ACThing()
     for I, V in pairs(getgc(true)) do
         if typeof(V) == "function" then
@@ -38,7 +39,7 @@ local DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
     Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.O
+    AimLockKeybind = Enum.KeyCode.T
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
