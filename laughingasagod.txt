@@ -77,6 +77,17 @@ oldIndex = hookmetamethod(game, "__index", function(self, Index)
     return oldIndex(self, Index)
 end)
 
+UserInputService.InputBegan:Connect(function(a)
+    if a.KeyCode == DaHoodSettings.AimLockKeybind then
+        aiming = true
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(a)
+    if a.KeyCode == DaHoodSettings.AimLockKeybind then
+        aiming = false
+    end
+end)
 
 RunService:BindToRenderStep("AimLock", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
