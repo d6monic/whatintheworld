@@ -39,13 +39,13 @@ local DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
     Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.T
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
+local hotkey = "t"
 
 mouse.KeyDown:Connect(function(key)
-if key == AimLockKeybind then
+if key == hotkey then
 if getgenv().DaHoodSettings.SilentAimEnabled == true then
  getgenv().DaHoodSettings.SilentAimEnabled = false
 else
