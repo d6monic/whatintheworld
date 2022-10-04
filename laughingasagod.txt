@@ -22,6 +22,28 @@ local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/packed
                            }
                            getgenv().DaHoodSettings = DaHoodSettings
                            
+local function ACThing()
+    for I, V in pairs(getgc(true)) do
+        if typeof(V) == "function" then
+            local sc = getfenv(V).script
+            if sc and sc.Name == "Camera" then
+                for I2, V2 in pairs(getupvalues(V)) do
+                    if type(V2) == "table" and rawget(V2, "DoThings") then
+                        rawset(V2, "Break", true)
+                        rawset(
+                            V2,
+                            "DoThings",
+                            function()
+                            end
+                        )
+                    end
+                end
+            end
+        end
+    end
+end
+ACThing()
+game.Players.LocalPlayer.CharacterAdded:connect(ACThing)
                            
                            function Aiming.Check()
                            -------------
