@@ -19,7 +19,6 @@ local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/packed
                                SilentAim = true,
                                AimLock = false,
                                Prediction = 0.157,
-                               AimLockKeybind = Enum.KeyCode.E
                            }
                            getgenv().DaHoodSettings = DaHoodSettings
                            
@@ -68,7 +67,7 @@ local mouse = player:GetMouse()
 
 mouse.KeyDown:Connect(function(key)
 
-   if key == "v" then
+   if key == "t" then
        
 
 
