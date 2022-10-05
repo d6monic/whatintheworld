@@ -100,29 +100,31 @@ end)
     
     
     end)
-                                -- // Aimlock
-                                RunService:BindToRenderStep("AimLock", 0, function()
-                                    if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
-                                        -- // Vars
-                                        local SelectedPart = Aiming.SelectedPart
-                                
-                                        -- // Hit to account prediction
-                                        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-                                
-                                        CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
-                                    end
-                                end)
-                                local ping 
-    local Value 
-    local pingValue 
-    local PingNumber 
     
-    game:GetService("RunService").RenderStepped:Connect(function()
+    -- // Aimlock
+RunService:BindToRenderStep("AimLock", 0, function()
+if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
+-- // Vars
+local SelectedPart = Aiming.SelectedPart
+                                
+-- // Hit to account prediction
+local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+                                
+CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
+end
+ end)
+
+local ping 
+local Value 
+local pingValue 
+local PingNumber 
+    
+game:GetService("RunService").RenderStepped:Connect(function()
         
-         ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-         Value = tostring(ping)
-         pingValue = Value:split(" ")
-         PingNumber = pingValue[1]
+ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+Value = tostring(ping)
+pingValue = Value:split(" ")
+PingNumber = pingValue[1]
         
-         DaHoodSettings.Prediction = PingNumber / 1000 
-    end)
+DaHoodSettings.Prediction = PingNumber / 1000 
+ end)
