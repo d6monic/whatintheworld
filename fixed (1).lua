@@ -1,0 +1,103 @@
+local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/KaiCuh/locks/main/d870997929af2a1483180013f688c771"))()
+Aiming.TeamCheck(false)
+
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local CurrentCamera = Workspace.CurrentCamera
+
+--// Spoof the Current Da Hood Modded Anti Cheat
+local function ACThing()
+    for I, V in pairs(getgc(true)) do
+        if typeof(V) == "function" then
+            local sc = getfenv(V).script
+            if sc and sc.Name == "Camera" then
+                for I2, V2 in pairs(getupvalues(V)) do
+                    if type(V2) == "table" and rawget(V2, "DoThings") then
+                        rawset(V2, "Break", true)
+                        rawset(
+                            V2,
+                            "DoThings",
+                            function()
+                            end
+                        )
+                    end
+                end
+            end
+        end
+    end
+end
+ACThing()
+game.Players.LocalPlayer.CharacterAdded:connect(ACThing)
+        
+local DaHoodSettings = {
+    SilentAim = true,
+    AimLock = false,
+    Prediction = 0.14,
+    AimLockKeybind = Enum.KeyCode.T
+}
+getgenv().DaHoodSettings = DaHoodSettings
+
+function Aiming.Check()
+    if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
+        return false
+    end
+
+    local Character = Aiming.Character(Aiming.Selected)
+    local KOd = Character:WaitForChild"K.O".Value
+    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+
+    if (KOd or Grabbed) then
+        return false
+    end
+
+    return true
+end
+
+local oldIndex = nil 
+oldIndex = hookmetamethod(game, "__index", function(self, Index)
+    if self == Mouse and not checkcaller() then 
+        local SelectedPart = Aiming.SelectedPart
+        if DaHoodSettings.SilentAim and Index == "Hit" or Index == "Target" then
+            
+            if SelectedPart then
+                local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+                if Index == "Hit" then
+                    return Hit
+                elseif Index == "Target" then
+                    return SelectedPart
+                end
+            end
+        end
+    end
+    return oldIndex(self, Index)
+end)
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+mouse.KeyDown:Connect(function(key)
+
+    if key == "t" then
+        if DaHoodSettings.SilentAim == false then
+        DaHoodSettings.SilentAim = true
+        else
+        DaHoodSettings.SilentAim = false
+        end
+    end
+end)
+              
+
+RunService:BindToRenderStep("AimLock", 0, function()
+    if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
+        local SelectedPart = Aiming.SelectedPart
+
+        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+
+        CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
+    end
+end)
