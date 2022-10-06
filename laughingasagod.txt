@@ -10,29 +10,18 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
 
---// Spoof the Current Cheat
-local function ACThing()
-    for I, V in pairs(getgc(true)) do
-        if typeof(V) == "function" then
-            local sc = getfenv(V).script
-            if sc and sc.Name == "Camera" then
-                for I2, V2 in pairs(getupvalues(V)) do
-                    if type(V2) == "table" and rawget(V2, "DoThings") then
-                        rawset(V2, "Break", true)
-                        rawset(
-                            V2,
-                            "DoThings",
-                            function()
-                            end
-                        )
-                    end
-                end
-            end
+Mouse.KeyDown:Connect(function(key)
+
+    if key == "t" then
+        if DaHoodSettings.SilentAim == false then
+        DaHoodSettings.SilentAim = true
+        else
+        DaHoodSettings.SilentAim = false
         end
     end
-end
-ACThing()
-game.Players.LocalPlayer.CharacterAdded:connect(ACThing)
+end)
+
+
         
 local DaHoodSettings = {
     SilentAim = true,
@@ -49,7 +38,7 @@ function Aiming.Check()
 
     local Character = Aiming.Character(Aiming.Selected)
     local KOd = Character:WaitForChild"K.O".Value
-    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+    local Grabbed = Character:FindFirstChild("WELD_GRAB") ~= nil
 
     if (KOd or Grabbed) then
         return false
@@ -87,3 +76,27 @@ RunService:BindToRenderStep("AimLock", 0, function()
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
 end)
+
+--// Spoof the Current Cheat
+local function ACThing()
+    for I, V in pairs(getgc(true)) do
+        if typeof(V) == "function" then
+            local sc = getfenv(V).script
+            if sc and sc.Name == "Camera" then
+                for I2, V2 in pairs(getupvalues(V)) do
+                    if type(V2) == "table" and rawget(V2, "DoThings") then
+                        rawset(V2, "Break", true)
+                        rawset(
+                            V2,
+                            "DoThings",
+                            function()
+                            end
+                        )
+                    end
+                end
+            end
+        end
+    end
+end
+ACThing()
+game.Players.LocalPlayer.CharacterAdded:connect(ACThing)
