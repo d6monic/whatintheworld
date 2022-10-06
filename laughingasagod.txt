@@ -37,8 +37,33 @@ local DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
     Prediction = 0.14,
+    AimLockKeybind = Enum.KeyCode.E
 }
 getgenv().DaHoodSettings = DaHoodSettings
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+mouse.KeyDown:Connect(function(key)
+
+    if key == "t" then
+        
+
+
+        if DaHoodSettings.SilentAim == false then
+        
+        DaHoodSettings.SilentAim = true
+        
+        else
+            
+        DaHoodSettings.SilentAim = false
+
+        end
+
+    end
+
+
+end)
 
 function Aiming.Check()
     if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
@@ -81,46 +106,21 @@ local mouse = player:GetMouse()
 mouse.KeyDown:Connect(function(key)
 
     if key == "t" then
-        
-
-
         if DaHoodSettings.SilentAim == false then
-        
         DaHoodSettings.SilentAim = true
-        
         else
-            
         DaHoodSettings.SilentAim = false
-
         end
-
     end
-
-
 end)
-                            -- // Aimlock
-                            RunService:BindToRenderStep("AimLock", 0, function()
-                                if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
-                                    -- // Vars
-                                    local SelectedPart = Aiming.SelectedPart
-                            
-                                    -- // Hit to account prediction
-                                    local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-                            
-                                    CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
-                                end
-                            end)
-                            local ping 
-local Value 
-local pingValue 
-local PingNumber 
+              
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    
-     ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-     Value = tostring(ping)
-     pingValue = Value:split(" ")
-     PingNumber = pingValue[1]
-    
-     DaHoodSettings.Prediction = PingNumber / 1000 
+RunService:BindToRenderStep("AimLock", 0, function()
+    if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
+        local SelectedPart = Aiming.SelectedPart
+
+        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+
+        CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
+    end
 end)
