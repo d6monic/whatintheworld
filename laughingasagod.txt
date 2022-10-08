@@ -82,7 +82,7 @@ RunService.RenderStepped:Connect(function()
     local Value = tostring(ping)
     local pingValue = Value:split(" ")
     local PingNumber = pingValue[1]
-    DaHoodSettings.Prediction = PingNumber / 1000 + _G.PRED
+    DaHoodSettings.Prediction = PingNumber / 1000 
 end)
 
 --// Spoof the Current Cheat
