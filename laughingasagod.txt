@@ -77,6 +77,14 @@ RunService:BindToRenderStep("AimLock", 0, function()
     end
 end)
 
+RunService.RenderStepped:Connect(function()
+    local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+    local Value = tostring(ping)
+    local pingValue = Value:split(" ")
+    local PingNumber = pingValue[1]
+    DaHoodSettings.Prediction = PingNumber / 1000 + _G.PRED
+end)
+
 --// Spoof the Current Cheat
 local function ACThing()
     for I, V in pairs(getgc(true)) do
