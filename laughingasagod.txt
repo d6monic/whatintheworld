@@ -12,9 +12,15 @@ local CurrentCamera = Workspace.CurrentCamera
         
 local DaHoodSettings = {
     SilentAim = true,
+
     AimLock = false,
+
     Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.E
+
+    AimLockKeybind = Enum.KeyCode.E,
+
+    Resolver = true,
+
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
@@ -46,6 +52,23 @@ function Aiming.Check()
 
     return true
 end
+
+task.spawn(function()
+
+    while task.wait() do
+
+        if DaHoodSettings.Resolver and Aiming.Selected ~= nil and (Aiming.Selected.Character)  then
+
+            local oldVel = game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity
+
+            game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity = Vector3.new(oldVel.X, -0, oldVel.Z)
+
+        end 
+
+    end
+
+end)
+
 
 local oldIndex = nil 
 oldIndex = hookmetamethod(game, "__index", function(self, Index)
