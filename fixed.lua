@@ -10,7 +10,7 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
 
---// Spoof the Current Da Hood Modded Anti Cheat
+--// Spoof the Current heat
 local function ACThing()
     for I, V in pairs(getgc(true)) do
         if typeof(V) == "function" then
