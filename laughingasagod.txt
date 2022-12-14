@@ -31,19 +31,6 @@ mouse.KeyDown:Connect(function(key)
     end
 end)
 
---\\ AA RS
-RunService.Heartbeat:Connect(function()
-    pcall(function()
-        for i,v in pairs(game.Players:GetChildren()) do
-            if v.Name ~= game.Players.LocalPlayer.Name then
-                local hrp = v.Character.HumanoidRootPart
-                 hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)    
-                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-            end
-        end
-    end)
-end)
-
 function Aiming.Check()
     if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
         return false
