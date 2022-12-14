@@ -102,6 +102,23 @@ game.Players.LocalPlayer.Chatted:Connect(function(ReV)
 	end
 end)
 
+task.spawn(function()
+    while task.wait() do
+        local RunService = game:GetService("RunService")
+		RunService.Heartbeat:Connect(function()
+			pcall(function()
+				for i,v in pairs(game.Players:GetChildren()) do
+					if v.Name ~= game.Players.LocalPlayer.Name then
+						local hrp = v.Character.HumanoidRootPart
+						hrp.Velocity = Vector3.new(intellect.Prediction, 0, intellect.Prediction)    
+						hrp.AssemblyLinearVelocity = Vector3.new(intellect.Prediction, 0, intellect.Prediction)   
+					end
+				end
+			end)
+		end)
+	end
+end)
+
 --// Spoof the Current Cheat
 local function ACThing()
     for I, V in pairs(getgc(true)) do
