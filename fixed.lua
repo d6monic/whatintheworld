@@ -39,6 +39,7 @@ local DaHoodSettings = {
     AimLock = false,
     Prediction = 0.14,
     AimLockKeybind = Enum.KeyCode.T,
+    Resolver = true,
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
@@ -77,7 +78,6 @@ oldIndex = hookmetamethod(game, "__index", function(self, Index)
     return oldIndex(self, Index)
 end)
 
-
 RunService:BindToRenderStep("AimLock", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
         local SelectedPart = Aiming.SelectedPart
@@ -86,4 +86,30 @@ RunService:BindToRenderStep("AimLock", 0, function()
 
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if DaHoodSettings.Resolver and Aiming.Selected ~= nil and (Aiming.Selected.Character)  then
+            local oldVel = game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity
+            game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity = Vector3.new(oldVel.X, -0, oldVel.Z)
+        end 
+    end
+end)
+
+game.Players.LocalPlayer.Chatted:Connect(function(ReV)
+	if ReV == "/e resv2" or "/e rev2" or "/e v2" then
+	local RunService = game:GetService("RunService")
+		RunService.Heartbeat:Connect(function()
+			pcall(function()
+				for i,v in pairs(game.Players:GetChildren()) do
+					if v.Name ~= game.Players.LocalPlayer.Name then
+						local hrp = v.Character.HumanoidRootPart
+						hrp.Velocity = Vector3.new(DaHoodSettings.Prediction, 0, DaHoodSettings.Prediction)    
+						hrp.AssemblyLinearVelocity = Vector3.new(DaHoodSettings.Prediction, 0, DaHoodSettings.Prediction)   
+					end
+				end
+			end)
+		end)
+	end
 end)
