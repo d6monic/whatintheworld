@@ -49,7 +49,7 @@ function Aiming.Check()
     end
 
     local Character = Aiming.Character(Aiming.Selected)
-    local KOd = Character:FindFirstChild"K.O".Value
+    local KOd = Character:FindFirstChild"K.O".Value = true
     local Grabbed = Character:FindFirstChild("WELD_GRAB") ~= nil
 
     if (KOd or Grabbed) then
