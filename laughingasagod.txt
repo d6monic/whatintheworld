@@ -77,14 +77,6 @@ RunService:BindToRenderStep("AimLock", 0, function()
     end
 end)
 
-RunService.RenderStepped:Connect(function()
-    local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-    local Value = tostring(ping)
-    local pingValue = Value:split(" ")
-    local PingNumber = pingValue[1]
-    DaHoodSettings.Prediction = PingNumber / 1000 
-end)
-
 game.Players.LocalPlayer.Chatted:Connect(function(ReV)
 	if ReV == "/e resv2" or "/e rev2" or "/e v2" then
 	local RunService = game:GetService("RunService")
@@ -95,23 +87,6 @@ game.Players.LocalPlayer.Chatted:Connect(function(ReV)
 						local hrp = v.Character.HumanoidRootPart
 						hrp.Velocity = Vector3.new(DaHoodSettings.Prediction, 0, DaHoodSettings.Prediction)    
 						hrp.AssemblyLinearVelocity = Vector3.new(DaHoodSettings.Prediction, 0, DaHoodSettings.Prediction)   
-					end
-				end
-			end)
-		end)
-	end
-end)
-
-task.spawn(function()
-    while task.wait() do
-        local RunService = game:GetService("RunService")
-		RunService.Heartbeat:Connect(function()
-			pcall(function()
-				for i,v in pairs(game.Players:GetChildren()) do
-					if v.Name ~= game.Players.LocalPlayer.Name then
-						local hrp = v.Character.HumanoidRootPart
-						hrp.Velocity = Vector3.new(intellect.Prediction, 0, intellect.Prediction)    
-						hrp.AssemblyLinearVelocity = Vector3.new(intellect.Prediction, 0, intellect.Prediction)   
 					end
 				end
 			end)
