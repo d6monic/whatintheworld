@@ -33,31 +33,14 @@ local FindFirstChild = Instancenew("Part").FindFirstChild
 local tableremove = table.remove
 local tableinsert = table.insert
 
--- main hook
-    function griefgc(Index, Value)
-        if type(Value) == "function" and getfenv(Value).script and getfenv(Value).script.Name == "Camera" then 
-            table.foreach(getupvalues(Value), function(Index, Value)
-                if type(Value) == "table" then 
-                    table.foreach(Value, function(Index, Value)
-                        if type(Value) == "function" and (tostring(Index) == "DoThings" or tostring(Index) == "Alive") then 
-                            hookfunction(Value, function()
-                                return
-                            end)
-                        end
-                    end)
-                end
-            end)
-        end
-    end; table.foreach(getgc(), griefgc);
-    
 -- // Silent Aim Vars
 getgenv().Aiming = {
     Enabled = true,
 
     ShowFOV = false,
-    FOV = 8,
-    FOVSides = 12,
-    FOVColour = Color3fromRGB(255, 0, 0),
+    FOV = 119,
+    FOVSides = 300,
+    FOVColour = Color3fromRGB(0, 0, 0),
 
     VisibleCheck = true,
     
@@ -66,7 +49,7 @@ getgenv().Aiming = {
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = {"Head", "UpperTorso", "LowerTorso"},
+    TargetPart = {"Head", "HumanoidRootPart"},
 
     Ignored = {
         Teams = {
@@ -77,7 +60,7 @@ getgenv().Aiming = {
         },
         Players = {
             LocalPlayer,
-            3254489874
+            91318356
         }
     }
 }
