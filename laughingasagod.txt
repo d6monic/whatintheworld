@@ -63,20 +63,6 @@ function Aiming.Check()
     return true
 end
 
-local player = game.Players.LocalPlayer
-local mouse = player:GetMouse()
-
-mouse.KeyDown:Connect(function(key)
-    if key == "t" then
-        if intellect.SilentAim == false then
-        DaHoodSettings.SilentAim = true
-        else
-        DaHoodSettingsSilentAim = false
-        end
-    end
-end)
-
-
 task.spawn(
     function()
         while task.wait() do
