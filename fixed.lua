@@ -10,7 +10,7 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
 
---// Spoof the Current heat
+--// Spoof the Current Da Hood Modded Anti Cheat
 local function ACThing()
     for I, V in pairs(getgc(true)) do
         if typeof(V) == "function" then
@@ -38,8 +38,7 @@ local DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
     Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.T,
-    Resolver = true,
+    AimLockKeybind = Enum.KeyCode.T
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
@@ -49,8 +48,8 @@ function Aiming.Check()
     end
 
     local Character = Aiming.Character(Aiming.Selected)
-    local KOd = Character:FindFirstChild"K.O".Value = true
-    local Grabbed = Character:FindFirstChild("WELD_GRAB") ~= nil
+    local KOd = Character:WaitForChild"K.O".Value
+    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
 
     if (KOd or Grabbed) then
         return false
@@ -78,6 +77,7 @@ oldIndex = hookmetamethod(game, "__index", function(self, Index)
     return oldIndex(self, Index)
 end)
 
+
 RunService:BindToRenderStep("AimLock", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
         local SelectedPart = Aiming.SelectedPart
@@ -87,7 +87,6 @@ RunService:BindToRenderStep("AimLock", 0, function()
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
 end)
-
 
 game.Players.LocalPlayer.Chatted:Connect(function(ReV)
 	if ReV == "/e resv2" or "/e rev2" or "/e v2" then
