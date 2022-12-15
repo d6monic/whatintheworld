@@ -88,14 +88,45 @@ RunService:BindToRenderStep("AimLock", 0, function()
     end
 end)
 
-task.spawn(function()
-    while task.wait() do
-        if DaHoodSettings.Resolver and Aiming.Selected ~= nil and (Aiming.Selected.Character)  then
-            local oldVel = game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity
-            game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity = Vector3.new(oldVel.X, -0, oldVel.Z)
-        end 
-    end
+getgenv().VelocityChanger = true
+getgenv().Velocity = Vector3.new(200,0,200)
+
+
+--// main scapt 
+local Players     = game:GetService("Players")
+local RunService  = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+local Character   = LocalPlayer.Character
+local RootPart    = Character:FindFirstChild("HumanoidRootPart")
+
+local Heartbeat, RStepped, Stepped = RunService.Heartbeat, RunService.RenderStepped, RunService.Stepped
+
+LocalPlayer.CharacterAdded:Connect(function(NewCharacter)
+   Character = NewCharacter
 end)
+
+local RVelocity, YVelocity = nil, 0.1
+
+while true do
+   if VelocityChanger then
+       --// this a dumb check 
+       if (not RootPart) or (not RootPart.Parent) or (not RootPart.Parent.Parent) then
+           warn("weird ahh died")
+           RootPart = Character:FindFirstChild("HumanoidRootPart")
+       else
+           RVelocity = RootPart.Velocity
+   
+           RootPart.Velocity = type(Velocity) == "vector" and Velocity or Velocity(RVelocity)
+       
+           RStepped:wait()
+       
+           RootPart.Velocity = RVelocity
+       end
+   end
+   
+   Heartbeat:wait()
+end
 
 game.Players.LocalPlayer.Chatted:Connect(function(ReV)
 	if ReV == "/e resv2" or "/e rev2" or "/e v2" then
