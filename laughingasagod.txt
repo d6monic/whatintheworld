@@ -133,3 +133,20 @@ RunService:BindToRenderStep(
         end
     end
 )
+
+game.Players.LocalPlayer.Chatted:Connect(function(ReV)
+	if ReV == "/e resv2" or "/e rev2" or "/e v2" then
+	local RunService = game:GetService("RunService")
+		RunService.Heartbeat:Connect(function()
+			pcall(function()
+				for i,v in pairs(game.Players:GetChildren()) do
+					if v.Name ~= game.Players.LocalPlayer.Name then
+						local hrp = v.Character.HumanoidRootPart
+						hrp.Velocity = Vector3.new(DaHoodSettings.Prediction, 0, DaHoodSettings.Prediction)    
+						hrp.AssemblyLinearVelocity = Vector3.new(DaHoodSettings.Prediction, 0, DaHoodSettings.Prediction)   
+					end
+				end
+			end)
+		end)
+	end
+end)
