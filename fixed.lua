@@ -38,9 +38,23 @@ local DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
     Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.T
+    AimLockKeybind = Enum.KeyCode.T,
 }
 getgenv().DaHoodSettings = DaHoodSettings
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+mouse.KeyDown:Connect(function(key)
+    if key == "t" then
+        if DaHoodSettings.SilentAim == false then
+        DaHoodSettings.SilentAim = true
+        else
+        DaHoodSettings.SilentAim = false
+        end
+    end
+end)
+
 
 function Aiming.Check()
     if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
