@@ -68,10 +68,10 @@ local mouse = player:GetMouse()
 
 mouse.KeyDown:Connect(function(key)
     if key == "v" then
-        if SilentAim.Enabled == false then
-         SilentAim.Enabled = true
+        if DaHoodSettings.SilentAim == false then
+         DaHoodSettings.SilentAim = true
         else
-         SilentAim.Enabled = false
+         DaHoodSettings.SilentAim = false
         end
     end
 end)
