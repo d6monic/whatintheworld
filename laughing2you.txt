@@ -1,6 +1,6 @@
 -- // Dependencies
 _G.PRED = 0.025
-local Aiming = loadstring(game:HttpGet("https://gist.githubusercontent.com/s17tzz/b3360969505c1f0f18950c1e1feb474f/raw/3e9e27e5856ef41efe14139ee5ef4d0abd36bda1/xp2jgvJNRxNKkM.lua"))()
+local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/d6monic/FLIP-IT/main/yh.lua"))()
 Aiming.TeamCheck(false)
 Aiming.ShowFOV = true
 Aiming.FOV = 25
