@@ -53,7 +53,7 @@ __index = hookmetamethod(game, "__index", function(t, k)
         local SelectedPart = Aiming.SelectedPart
 
         if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (SelectedPart.Position * DaHoodSettings.Prediction)
+            local Hit = SelectedPart.CFrame + (DaHoodSettings.Prediction)
 
             return (k == "Hit" and Hit or SelectedPart)
         end
@@ -66,37 +66,9 @@ RunService:BindToRenderStep("AimLock", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
         local SelectedPart = Aiming.SelectedPart
 
-        local Hit = SelectedPart.CFrame + (SelectedPart.Position * DaHoodSettings.Prediction)
+        local Hit = SelectedPart.CFrame + (DaHoodSettings.Prediction)
 
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
     end)
 
-
-RunService.RenderStepped:Connect(function()
-
-    local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-    local Value = tostring(ping)
-    local pingValue = Value:split(" ")
-    local PingNumber = pingValue[1]
-
-    DaHoodSettings.Prediction = PingNumber / 1000 
-
-                    if Aiming.Character.Humanoid.Jump == true and AimlockTarget.Character.Humanoid.FloorMaterial == Enum.Material.Air then
-                    Aiming.TargetPart = "RightFoot"
-                else
-                    Aiming.Character:WaitForChild("Humanoid").StateChanged:Connect(function(new)
-
-                    if new == Enum.HumanoidStateType.Freefall then
-                    Aiming.TargetPart = "RightFoot"
-                    else
-
-                    Aiming.TargetPart = Aiming.SelectedPart
-
-                    end
-
-                    end)
-
-                end
-
-end)
