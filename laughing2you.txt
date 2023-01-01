@@ -1,10 +1,12 @@
-local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/KaiCuh/locks/main/d870997929af2a1483180013f688c771"))()
+local Aiming = loadstring(game:HttpGet("https://pastebin.com/raw/YmUFTisy", true))()
 Aiming.TeamCheck(false)
+ 
 
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
+
 
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
@@ -14,61 +16,77 @@ local DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
     Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.T
+    AimLockKeybind = Enum.KeyCode.E,
+    Resolver = false,
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
-local player = game.Players.LocalPlayer
-local mouse = player:GetMouse()
- 
-mouse.KeyDown:Connect(function(key)
-    if key == "v" then
-        if DaHoodSettings.SilentAim == false then
-        DaHoodSettings.SilentAim = true
-        else
-        DaHoodSettings.SilentAim = false
-        end
-    end
-end)
 
 function Aiming.Check()
+-------------
     if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
         return false
     end
 
+    -- // Check if downed
     local Character = Aiming.Character(Aiming.Selected)
     local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
     local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
 
+    -- // Check B
     if (KOd or Grabbed) then
         return false
     end
 
+    -- //
     return true
 end
 
+game:GetService("RunService").Heartbeat:Connect(function()
+    if DaHoodSettings.Resolver then
+    local oldvelocity = SelectedPart.Velocity
+    end
+end)
+
+
+-- // Hook
 local __index
 __index = hookmetamethod(game, "__index", function(t, k)
+    -- // Check if it trying to get our mouse's hit or target and see if we can use it
     if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
         local SelectedPart = Aiming.SelectedPart
 
+        -- // Hit/Target
         if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (DaHoodSettings.Prediction)
+            -- // Hit to account prediction
 
+                if DaHoodSettings.Resolver then
+        local Hit = SelectedPart.CFrame + (Vector3.new(oldvelocity.X, -0, oldvelocity.Z) * DaHoodSettings.Prediction)
+        else
+        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+        end
+
+            -- // Return modded val
             return (k == "Hit" and Hit or SelectedPart)
         end
     end
 
+    -- // Return
     return __index(t, k)
 end)
 
+-- // Aimlock
 RunService:BindToRenderStep("AimLock", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
+        -- // Vars
         local SelectedPart = Aiming.SelectedPart
 
-        local Hit = SelectedPart.CFrame + (DaHoodSettings.Prediction)
-
+        -- // Hit to account prediction
+        if DaHoodSettings.Resolver then
+        local Hit = SelectedPart.CFrame + (Vector3.new(oldvelocity.X, -0, oldvelocity.Z) * DaHoodSettings.Prediction)
+        else
+        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+        end
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
     end)
-
