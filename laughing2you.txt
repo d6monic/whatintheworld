@@ -44,35 +44,42 @@ end
 
 game:GetService("RunService").Heartbeat:Connect(function()
     if DaHoodSettings.Resolver then
-    local oldvelocity = Character.HumanoidRootPart.Velocity
+    local oldvelocity = SelectedPart.Velocity
     end
 end)
 
 
--- // Hook
-local __index
-__index = hookmetamethod(game, "__index", function(t, k)
-    -- // Check if it trying to get our mouse's hit or target and see if we can use it
-    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
+local oldIndex = nil 
+oldIndex = hookmetamethod(game, "__index", function(self, Index)
+    if self == Mouse and not checkcaller() then 
         local SelectedPart = Aiming.SelectedPart
-
-        -- // Hit/Target
-        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            -- // Hit to account prediction
-
-                if DaHoodSettings.Resolver then
-        local Hit = SelectedPart.CFrame + (Vector3.new(oldvelocity.X, -0, oldvelocity.Z) * DaHoodSettings.Prediction)
-        else
-        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-        end
-
-            -- // Return modded val
-            return (k == "Hit" and Hit or SelectedPart)
+        if DaHoodSettings.SilentAim and Index == "Hit" or Index == "Target" then
+            
+            if SelectedPart then
+                local hit SelectedPart.CFrame + (Vector3.new(oldvelocity.X, -0, oldvelocity.Z) * DaHoodSettings.Prediction)
+                local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+                if Index == "Hit" then
+                    return Hit
+                elseif Index == "Target" then
+                    return SelectedPart
+                end
+            end
         end
     end
+    return oldIndex(self, Index)
+end)
 
-    -- // Return
-    return __index(t, k)
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+mouse.KeyDown:Connect(function(key)
+    if key == "v" then
+        if Aiming.Enabled == false then
+        Aiming.Enabled = true
+        else
+        Aiming.Enabled = false
+        end
+    end
 end)
 
 -- // Aimlock
