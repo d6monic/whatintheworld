@@ -44,7 +44,7 @@ end
 
 game:GetService("RunService").Heartbeat:Connect(function()
     if DaHoodSettings.Resolver then
-    local oldvelocity = SelectedPart.Velocity
+    local oldvelocity = Character.HumanoidRootPart.Velocity
     end
 end)
 
