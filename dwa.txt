@@ -48,19 +48,24 @@ function Aiming.Check()
 end
 
 local oldIndex = nil 
-oldIndex = hookmetamethod(game, "__index", function(t, k)
-    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
+oldIndex = hookmetamethod(game, "__index", function(self, Index)
+    if self == Mouse and not checkcaller() then 
         local SelectedPart = Aiming.SelectedPart
-
-        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-
-            return (k == "Hit" and Hit or SelectedPart)
+        if DaHoodSettings.SilentAim and Index == "Hit" or Index == "Target" then
+            
+            if SelectedPart then
+                local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+                if Index == "Hit" then
+                    return Hit
+                elseif Index == "Target" then
+                    return SelectedPart
+                end
+            end
         end
     end
-
-    return  oldIndex(t, k)
+    return oldIndex(self, Index)
 end)
+
 
 RunService:BindToRenderStep("AimLock", 0, function()
     if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
